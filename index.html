@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Demonstração dos Componentes Web - Análise do Livro</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        h1, h2, h3 {
+            color: #2c3e50;
+        }
+        h1 {
+            text-align: center;
+            color: #1a5276;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 10px;
+            margin-bottom: 30px;
+        }
+        .tabs {
+            display: flex;
+            margin-bottom: 20px;
+            background-color: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .tab {
+            padding: 12px 20px;
+            cursor: pointer;
+            background-color: #f8f9fa;
+            border: none;
+            transition: all 0.3s ease;
+            flex: 1;
+            text-align: center;
+            font-weight: bold;
+            color: #555;
+        }
+        .tab.active {
+            background-color: #3498db;
+            color: white;
+        }
+        .tab:hover:not(.active) {
+            background-color: #e9ecef;
+        }
+        .tab-content {
+            display: none;
+            padding: 20px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+        .tab-content.active {
+            display: block;
+        }
+        .controls {
+            margin: 20px 0;
+            padding: 15px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .control-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #2c3e50;
+        }
+        select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            background-color: white;
+            font-size: 16px;
+        }
+        .footer {
+            text-align: center;
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid #ddd;
+            color: #7f8c8d;
+            font-size: 0.9em;
+        }
+    </style>
+</head>
+<body>
+    <h1>Análise do Livro "Análise Sensorial e Harmonização"</h1>
+    
+    <div class="tabs">
+        <button class="tab active" onclick="openTab(event, 'resumo')">Resumo da Análise</button>
+        <button class="tab" onclick="openTab(event, 'desatualizados')">Pontos Desatualizados</button>
+    </div>
+    
+    <div id="resumo" class="tab-content active">
+        <div class="controls">
+            <div class="control-group">
+                <label for="unidade-select">Selecione a Unidade:</label>
+                <select id="unidade-select" onchange="changeUnidade()">
+                    <option value="geral">Análise Geral do Livro</option>
+                    <option value="unidade1">Unidade 1: Análise Sensorial</option>
+                    <option value="unidade2">Unidade 2: Análise de Cervejas</option>
+                    <option value="unidade3">Unidade 3: Harmonização e Painéis</option>
+                </select>
+            </div>
+        </div>
+        
+        <resumo-analise id="resumo-component" unidade="geral"></resumo-analise>
+    </div>
+    
+    <div id="desatualizados" class="tab-content">
+        <div class="controls">
+            <div class="control-group">
+                <label for="categoria-select">Selecione a Categoria:</label>
+                <select id="categoria-select" onchange="changeCategoria()">
+                    <option value="tecnologias">Tecnologias e Métodos</option>
+                    <option value="referencias">Referências e Recursos Educacionais</option>
+                    <option value="mercado">Tendências de Mercado e Produção</option>
+                    <option value="educacao">Abordagens Educacionais e Treinamento</option>
+                </select>
+            </div>
+        </div>
+        
+        <pontos-desatualizados-table id="desatualizados-component" categoria="tecnologias"></pontos-desatualizados-table>
+    </div>
+    
+    <div class="footer">
+        <p>Componentes Web para Integração - Análise realizada em Abril de 2025</p>
+        <p>Para integrar estes componentes em seu site, inclua os arquivos JS e use as tags personalizadas.</p>
+    </div>
+    
+    <script src="resumo-analise.js"></script>
+    <script src="pontos-desatualizados-table.js"></script>
+    <script>
+        function openTab(evt, tabName) {
+            var i, tabcontent, tablinks;
+            
+            tabcontent = document.getElementsByClassName("tab-content");
+            for (i = 0; i < tabcontent.length; i++) {
+                tabcontent[i].className = tabcontent[i].className.replace(" active", "");
+            }
+            
+            tablinks = document.getElementsByClassName("tab");
+            for (i = 0; i < tablinks.length; i++) {
+                tablinks[i].className = tablinks[i].className.replace(" active", "");
+            }
+            
+            document.getElementById(tabName).className += " active";
+            evt.currentTarget.className += " active";
+        }
+        
+        function changeUnidade() {
+            const select = document.getElementById('unidade-select');
+            const component = document.getElementById('resumo-component');
+            component.setAttribute('unidade', select.value);
+        }
+        
+        function changeCategoria() {
+            const select = document.getElementById('categoria-select');
+            const component = document.getElementById('desatualizados-component');
+            component.setAttribute('categoria', select.value);
+        }
+    </script>
+</body>
+</html>
